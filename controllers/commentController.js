@@ -1,7 +1,7 @@
-import Comment from "../models/Comment";
+import Comment from "../models/Comment.js";
 
-const allcomments = async (req, res) => {};
+const allComments = async (req, res) => {};
 
 export default {
-    allcomments
+    allComments
 }

@@ -1,12 +1,12 @@
 import express from 'express';
-import router from express.Router();
-import { index, articleByCategory, singleArticle, search, author } from '../controllers/frontendController.js';
+const router = express.Router();
+import siteController from '../controllers/siteController.js';
 
-router.get('/', index);
-router.get('/category/:name', articleByCategory);
-router.get('/single/:id', singleArticle);
-router.get('/search', search);
-router.get('/author/:name', author);
-router.post('/single/:id', addComment);
+router.get('/', siteController.index);
+router.get('/category/:name', siteController.articleByCategory);
+router.get('/single/:id', siteController.singleArticle);
+router.get('/search', siteController.search);
+router.get('/author/:name', siteController.author);
+router.post('/single/:id', siteController.addComment);
 
 export default router;

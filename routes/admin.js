@@ -1,41 +1,42 @@
 import express from 'express';
-import router from express.Router();
+const router = express.Router();
+import userController from '../controllers/userController.js';
+import categoryController from '../controllers/categoryController.js';
+import articleController from '../controllers/articleController.js';
+import commentController from '../controllers/commentController.js';
 
 // Login Routes
-router.get('/login', loginPage);
-router.post('/index', adminLogin);
-router.get('/logout', logout);
+router.get('/login', userController.loginPage);
+router.post('/index', userController.adminLogin);
+router.get('/logout', userController.logout);
 
 // User CRUD Routes
-router.get('/users', allUsers);
-router.get('/users/add', addUserPage);
-router.post('/users/add', addUser);
-router.get('/users/update/:id', updateUserPage);
-router.post('/users/update/:id', updateUser);
-router.get('/users/delete/:id', deleteUser);
+router.get('/users', userController.allUsers);
+router.get('/users/add', userController.addUserPage);
+router.post('/users/add', userController.addUser);
+router.get('/users/update/:id', userController.updateUserPage);
+router.post('/users/update/:id', userController.updateUser);
+router.get('/users/delete/:id', userController.deleteUser);
 
 
 // Category CRUD Routes
-router.get('/categories', allcategories);
-router.get('/categories/add', addCategoryPage);
-router.post('/categories/add', addCategory);
-router.get('/categories/update/:id', updateCategoryPage);
-router.post('/categories/update/:id', updateCategory);
-router.get('/categories/delete/:id', deleteCategory);
+router.get('/categories', categoryController.allCategories);
+router.get('/categories/add', categoryController.addCategoryPage);
+router.post('/categories/add', categoryController.addCategory);
+router.get('/categories/update/:id', categoryController.updateCategoryPage);
+router.post('/categories/update/:id', categoryController.updateCategory);
+router.get('/categories/delete/:id', categoryController.deleteCategory);
 
 
 // Article CRUD Routes
-router.get('/articles', allarticles);
-router.get('/articles/add', addArticlePage);
-router.post('/articles/add', addArticle);
-router.get('/articles/update/:id', updateArticlePage);
-router.post('/articles/update/:id', updateArticle);
-router.get('/articles/delete/:id', deleteArticle);
+router.get('/articles', articleController.allArticles);
+router.get('/articles/add', articleController.addArticlePage);
+router.post('/articles/add', articleController.addArticle);
+router.get('/articles/update/:id', articleController.updateArticlePage);
+router.post('/articles/update/:id', articleController.updateArticle);
+router.get('/articles/delete/:id', articleController.deleteArticle);
 
 // Comment Routes
-router.get('/comments', allcomments);
-
-router.get('/', index);
-
+router.get('/comments', commentController.allComments);
 
 export default router;
