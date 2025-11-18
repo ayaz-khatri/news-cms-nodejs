@@ -5,10 +5,11 @@
             <h1 class="admin-heading"><i class="fa fa-users"></i> All Users</h1>
             </div>
             <div class="col-md-2">
-            <a class="add-new" href="add-user.html">add user</a>
+            <a class="add-new" href="/admin/users/add">Add user</a>
             </div>
             <div class="col-md-12">
-            <table class="content-table">
+                <div id="crudTable"></div>
+            <!-- <table class="content-table">
                 <thead>
                     <th>S.No.</th>
                     <th>Full Name</th>
@@ -51,8 +52,8 @@
                         <td class='delete'><a href='delete-user.html'><i class='fa fa-trash-o'></i></a></td>
                     </tr>
                 </tbody>
-            </table>
-            <nav>
+            </table> -->
+            <!-- <nav>
                 <ul class="pagination">
                 <li class="page-item disabled">
                     <a class="page-link">Previous</a>
@@ -66,8 +67,32 @@
                     <a class="page-link" href="#">Next</a>
                 </li>
                 </ul>
-            </nav>
+            </nav> -->
             </div>
         </div>
     </div>
 </div>
+
+<script src="/js/tabulator.min.js"></script>
+
+<script>
+    const tableData =  <%- JSON.stringify(users) %> || [];
+    
+    var table = new Tabulator("#crudTable", {
+        data:tableData,
+        layout:"fitColumns",
+        pagination:true,
+        paginationSize:10,
+        paginationSizeSelector:[5, 10, 20, 50],
+        columns:[
+            {title:"Full Name", field:"fullname", headerFilter:"input"},
+            {title:"User Name", field:"username", headerFilter:"input"},
+            {title:"Role", field:"role", headerFilter:"input"},
+            {title: "Actions", formatter: function(cell, formatterParams, onRendered){
+                return `<a href="/admin/users/update/${cell.getData()._id}" class="btn btn-sm btn-success text-white" title="Edit">Edit</a> 
+                <button class="btn btn-sm btn-danger delete-user" title="Delete" onclick="deleteUser('${cell.getData()._id}')">Delete</button>`;
+
+            }}
+        ],
+    });
+</script>

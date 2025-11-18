@@ -32,8 +32,8 @@ mongoose.connect(process.env.MONGODB_URI)
 
 /* --------------------------------- Routes --------------------------------- */
 app.use('/', frontendRoutes);
-app.use('/admin', (res, req, next)=>{
-  res.locals.layout = ' admin/layout';
+app.use('/admin', (req, res, next)=>{
+  res.locals.layout = 'admin/layout';
   next();
 });
 app.use('/admin', adminRoutes);
