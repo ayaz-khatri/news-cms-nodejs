@@ -8,9 +8,9 @@
     <title>ADMIN Panel</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <!-- Tabulator CSS -->
-    <link rel="stylesheet" href="/css/tabulator.min.css" />
-    <link rel="stylesheet" href="/css/tabulator_bootstrap5.min.css" />
+
+    <%- typeof tabulatorCSS == 'undefined' ? '' : tabulatorCSS %>
+
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="/css/font-awesome.css">
     <!-- Custom stlylesheet -->

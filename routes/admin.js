@@ -18,7 +18,7 @@ router.get('/users/add', userController.addUserPage);
 router.post('/users/add', userController.addUser);
 router.get('/users/update/:id', userController.updateUserPage);
 router.post('/users/update/:id', userController.updateUser);
-router.get('/users/delete/:id', userController.deleteUser);
+router.delete('/users/delete/:id', userController.deleteUser);
 
 
 // Category CRUD Routes
@@ -27,7 +27,7 @@ router.get('/categories/add', categoryController.addCategoryPage);
 router.post('/categories/add', categoryController.addCategory);
 router.get('/categories/update/:id', categoryController.updateCategoryPage);
 router.post('/categories/update/:id', categoryController.updateCategory);
-router.get('/categories/delete/:id', categoryController.deleteCategory);
+router.delete('/categories/delete/:id', categoryController.deleteCategory);
 
 
 // Article CRUD Routes
@@ -36,7 +36,7 @@ router.get('/articles/add', articleController.addArticlePage);
 router.post('/articles/add', articleController.addArticle);
 router.get('/articles/update/:id', articleController.updateArticlePage);
 router.post('/articles/update/:id', articleController.updateArticle);
-router.get('/articles/delete/:id', articleController.deleteArticle);
+router.delete('/articles/delete/:id', articleController.deleteArticle);
 
 // Comment Routes
 router.get('/comments', commentController.allComments);

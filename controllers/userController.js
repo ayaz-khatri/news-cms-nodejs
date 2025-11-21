@@ -45,10 +45,38 @@ const addUser = async (req, res) => {
     }
  };
 const updateUserPage = async (req, res) => { 
-    res.render('admin/users/update');
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) return res.status(404).json({message: 'User not found'});
+        res.render('admin/users/update', {user});
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
 };
-const updateUser = async (req, res) => { };
-const deleteUser = async (req, res) => { };
+const updateUser = async (req, res) => {
+    const { fullname, password, role } = req.body;
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) return res.status(404).json({message: 'User not found'});
+        user.fullname = fullname || user.fullname;
+        if (password) user.password = password;
+        user.role = role || user.role;
+        const saved = await user.save();
+        res.redirect('/admin/users');
+        // res.status(201).json(saved);
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+ };
+const deleteUser = async (req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id);
+        if (!user) return res.status(404).json({message: 'User not found'});
+        res.json({success:true});
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+};
 
 
 export default {
