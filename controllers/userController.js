@@ -41,13 +41,7 @@ const dashboard = async (req, res) => {
  };
 const allUsers = async (req, res) => {
      try {
-        const search =  req.query.search || '';
-        const query = {
-            $or: [
-                {fullname: {$regex: search, $options: 'i'}},
-                {username: {$regex: search, $options: 'i'}}]
-        };
-        const users = await User.find(query);
+        const users = await User.find();
         res.render('admin/users', {users, role: req.role});
     } catch (error) {
         res.status(500).json({message: error.message});
