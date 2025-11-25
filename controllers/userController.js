@@ -3,22 +3,32 @@ import User from "../models/User.js";
 import News from "../models/News.js";
 import Category from "../models/Category.js";
 import Setting from "../models/Setting.js";
+import { validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
 import errorMessage from "../utils/error-message.js";
 import dotenv from "dotenv";
+import { error } from "console";
 dotenv.config();
 
 
 const loginPage = async (req, res) => {
     res.render('admin/login', {
-        layout:false
+        layout:false,
+        errors: []
     });
  };
  
 const adminLogin = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('admin/login', {
+            layout:false,
+            errors: errors.array()
+        });
+    }
     const { username, password } = req.body;
     try {
         const user = await User.findOne({username});
@@ -98,9 +108,16 @@ const allUsers = async (req, res, next) => {
     
  };
 const addUserPage = async (req, res) => { 
-    res.render('admin/users/create', {role: req.role});
+    res.render('admin/users/create', {role: req.role, errors: []});
 };
 const addUser = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('admin/users/create', {
+            role: req.role,
+            errors: errors.array()
+        });
+    }
     try {
         const user = new User(req.body);
         const saved = await user.save();
@@ -114,12 +131,21 @@ const updateUserPage = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) return next( errorMessage('User not found.', 404) );
-        res.render('admin/users/update', {user, role: req.role});
+        res.render('admin/users/update', {user, role: req.role, errors: []});
     } catch (error) {
         next( errorMessage(error.message, 500) );
     }
 };
 const updateUser = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const user = await User.findById(req.params.id);
+        return res.render('admin/users/update', {
+            user: user,
+            role: req.role,
+            errors: errors.array()
+        });
+    }
     const { fullname, password, role } = req.body;
     try {
         const user = await User.findById(req.params.id);
@@ -136,8 +162,18 @@ const updateUser = async (req, res, next) => {
  };
 const deleteUser = async (req, res, next) => {
     try {
-        const user = await User.findByIdAndDelete(req.params.id);
+        const user = await User.findById(req.params.id);
         if (!user) return next( errorMessage('User not found.', 404) );
+
+        const article = await News.findOne({author: req.params.id});
+        if (article) {
+            return res.status(400).json({
+                success: false,
+                message: 'Cannot delete user with associated articles.'
+            });
+        }
+
+        await User.deleteOne({_id: req.params.id});
         res.json({success:true});
     } catch (error) {
         next( errorMessage(error.message, 500) );
