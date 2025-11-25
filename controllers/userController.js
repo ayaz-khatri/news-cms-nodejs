@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
 import User from "../models/User.js";
+import News from "../models/News.js";
+import Category from "../models/Category.js";
+import Setting from "../models/Setting.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import fs from "fs";
+import path from "path";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -34,11 +39,46 @@ const logout = async (req, res) => {
  };
 
 const dashboard = async (req, res) => {
-    res.render('admin/dashboard', {role: req.role, fullname: req.fullname});
+    let articleCount;
+    if(req.role == 'admin'){
+        articleCount = await News.countDocuments();
+    } else {
+        articleCount = await News.countDocuments({author: req.id});
+    }
+    const userCount = await User.countDocuments();
+    const categoryCount = await Category.countDocuments();
+    res.render('admin/dashboard', {role: req.role, fullname: req.fullname, articleCount, userCount, categoryCount});
  };
- const settings = async (req, res) => {
-    res.render('admin/settings', {role: req.role});
+const settings = async (req, res) => {
+    const settings = await Setting.findOne();
+    res.render('admin/settings', {role: req.role, settings});
  };
+
+const saveSettings = async (req, res) => {
+    try {
+        const settings = await Setting.findOne();
+        const { title, description } = req.body;
+        const updateData = { title, description };
+        if (req.file){
+            updateData.logo = req.file.filename;
+            if(settings && settings.logo){
+                const imagePath = path.join('./public/uploads/', settings.logo);
+                fs.unlink(imagePath, (err) => {
+                    if (err) console.log('Failed to delete image:', err);
+                });
+            }
+        }
+        const saved = await Setting.findOneAndUpdate(
+            {},
+            updateData,
+            { new: true, upsert: true }
+        );
+        res.redirect('/admin/settings');
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 const allUsers = async (req, res) => {
      try {
         const users = await User.find();
@@ -107,5 +147,6 @@ export default {
     updateUser, 
     deleteUser,
     dashboard,
-    settings
+    settings,
+    saveSettings
 }
