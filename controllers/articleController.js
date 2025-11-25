@@ -1,32 +1,32 @@
 import Category from "../models/Category.js";
 import News from "../models/News.js";
-import User from "../models/User.js";
 import path from 'path';
 import fs from 'fs';
+import errorMessage from "../utils/error-message.js";
 
 
-const allArticles = async (req, res) => {
+const allArticles = async (req, res, next) => {
     try {
         let articles;
         if(req.role == 'admin'){
-                    articles = await News.find()
-                                    .populate('category', 'name')
-                                    .populate('author', 'fullname');
+            articles = await News.find().populate('category', 'name').populate('author', 'fullname');
         } else {
-                        articles = await News.find({author: req.id})
-                                   .populate('category', 'name')
-                                   .populate('author', 'fullname');
+            articles = await News.find({author: req.id}).populate('category', 'name').populate('author', 'fullname');
         }
         res.render('admin/articles', {articles, role: req.role});
     } catch (error) {
-        res.status(500).json({message: error.message});
+        next( errorMessage(error.message, 500) );
     }
  };
 const addArticlePage = async (req, res) => { 
-    const categories = await Category.find();
-    res.render('admin/articles/create', {categories, role: req.role});
+    try {
+        const categories = await Category.find();
+        res.render('admin/articles/create', {categories, role: req.role});
+    } catch (error) {
+        next( errorMessage(error.message, 500) );
+    }
 }; 
-const addArticle = async (req, res) => {
+const addArticle = async (req, res, next) => {
     const { title, content, category } = req.body;
     try {
         const article = new News({
@@ -38,36 +38,35 @@ const addArticle = async (req, res) => {
         });
         const saved = await article.save();
         res.redirect('/admin/articles');
-        // res.status(201).json(saved);
     } catch (error) {
-        res.status(400).json({message: error.message});
+        next( errorMessage(error.message, 500) );
     }
  };
-const updateArticlePage = async (req, res) => { 
+const updateArticlePage = async (req, res, next) => { 
     try {
         const article = await News.findById(req.params.id)
                                     .populate('category', 'name')
                                     .populate('author', 'fullname');
-        if (!article) return res.status(404).json({message: 'Article not found'});
+        if (!article) return next( errorMessage('Article not found.', 404) );
         if(req.role == 'author'){
             if(req.id != article.author._id){
-                return res.status(403).json({message: 'Access denied'});
+                return next( errorMessage('Access denied.', 403) );
             }
         }
         const categories = await Category.find();
         res.render('admin/articles/update', {article, categories, role: req.role});
     } catch (error) {
-        res.status(500).json({message: error.message});
+        next( errorMessage(error.message, 500) );
     } 
 }; 
-const updateArticle = async (req, res) => { 
+const updateArticle = async (req, res, next) => { 
     const { title, content, category } = req.body;
     try {
         const article = await News.findById(req.params.id);
-        if (!article) return res.status(404).json({message: 'Article not found'});
+        if (!article) return next( errorMessage('Article not found.', 404) );
          if(req.role == 'author'){
             if(req.id != article.author._id){
-                return res.status(403).json({message: 'Access denied'});
+                return next( errorMessage('Access denied.', 403) );
             }
         }
         article.title = title || article.title;
@@ -85,16 +84,16 @@ const updateArticle = async (req, res) => {
         res.redirect('/admin/articles');
         // res.status(201).json(saved);
     } catch (error) {
-        res.status(500).json({message: error.message});
+        next( errorMessage(error.message, 500) );
     }
 };
-const deleteArticle = async (req, res) => {
+const deleteArticle = async (req, res, next) => {
     try {
         const article = await News.findById(req.params.id);
-        if (!article) return res.status(404).json({message: 'Article not found'});
+        if (!article) return next( errorMessage('Article not found.', 404) );
          if(req.role == 'author'){
             if(req.id != article.author._id){
-                return res.status(403).json({message: 'Access denied'});
+                return next( errorMessage('Access denied.', 403) );
             }
         }
         await article.deleteOne();
@@ -106,7 +105,7 @@ const deleteArticle = async (req, res) => {
         }
         res.json({success:true});
     } catch (error) {
-        res.status(500).json({message: error.message});
+        next( errorMessage(error.message, 500) );
     }
  };
 

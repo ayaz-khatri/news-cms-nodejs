@@ -7,6 +7,7 @@ import commentController from '../controllers/commentController.js';
 import isLoggedIn from '../middleware/isLoggedIn.js';
 import isAdmin from '../middleware/isAdmin.js';
 import upload from '../middleware/multer.js';
+import { stat } from 'fs';
 
 // Login Routes
 router.get('/', userController.loginPage);
@@ -44,5 +45,25 @@ router.delete('/articles/delete/:id', isLoggedIn, articleController.deleteArticl
 
 // Comment Routes
 router.get('/comments', isLoggedIn, commentController.allComments);
+
+// 404 Middleware
+router.use(isLoggedIn, (req, res, next) => {
+    res.status(404).render('admin/404',{
+        message: 'Page Not Found',
+        role: req.role
+    });
+});
+
+
+// Error Handling Middleware
+router.use(isLoggedIn,(err, req, res, next) => {
+    console.log(err.stack);
+    const status = err.status || 500;
+    res.status(status).render('admin/error',{
+        status: status,
+        message: err.message || 'Something went wrong!',
+        role: req.role
+    });
+});
 
 export default router;
