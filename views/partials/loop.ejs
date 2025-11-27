@@ -1,3 +1,4 @@
+<% let news = paginatedNews.data %>
 <% news.forEach(newsItem => { %>
     
 <div class="post-content">
@@ -32,18 +33,39 @@
 </div>
 <% }); %>
 
+<%
+    function buildQueryString(query, page) {
+        const params = new URLSearchParams(query);
+        params.set('page', page);
+        return '?' + params.toString();
+    }
+%>
+
 <nav>
     <ul class="pagination">
-        <li class="page-item disabled">
-        <a class="page-link">Previous</a>
+
+        <!-- Previous button -->
+        <li class="page-item <%= paginatedNews.hasPrevPage ? '' : 'disabled' %>">
+            <a class="page-link"
+               href="<%= paginatedNews.hasPrevPage ? buildQueryString(query, paginatedNews.page - 1) : '#' %>">
+                Previous
+            </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active">
-        <a class="page-link" href="#" aria-current="page">2</a>
+
+        <!-- Page numbers -->
+        <% for (let i = 1; i <= paginatedNews.totalPages; i++) { %>
+            <li class="page-item <%= i === paginatedNews.page ? 'active' : '' %>">
+                <a class="page-link" href="<%= buildQueryString(query, i) %>"><%= i %></a>
+            </li>
+        <% } %>
+
+        <!-- Next button -->
+        <li class="page-item <%= paginatedNews.hasNextPage ? '' : 'disabled' %>">
+            <a class="page-link"
+               href="<%= paginatedNews.hasNextPage ? buildQueryString(query, paginatedNews.page + 1) : '#' %>">
+                Next
+            </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-        </li>
+
     </ul>
 </nav>
