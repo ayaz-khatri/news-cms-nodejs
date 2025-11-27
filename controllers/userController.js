@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import User from "../models/User.js";
 import News from "../models/News.js";
 import Category from "../models/Category.js";
@@ -10,7 +9,6 @@ import fs from "fs";
 import path from "path";
 import errorMessage from "../utils/error-message.js";
 import dotenv from "dotenv";
-import { error } from "console";
 dotenv.config();
 
 
