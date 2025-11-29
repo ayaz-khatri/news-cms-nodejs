@@ -24,11 +24,7 @@ const commentSchema = mongoose.Schema({
         default: 'pending',
         required: true
     },
-    timestamps: {
-        type: Date,
-        default: Date.now
-    }
-});
+}, { timestamps: true });
 
 // This will create model having above schema
 const Comment = mongoose.model('Comment', commentSchema);

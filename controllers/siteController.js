@@ -63,7 +63,9 @@ const singleArticle = async (req, res) => {
                                 .populate('author', 'fullname')
                                 .sort({timestamps: -1});
 
-        res.render('single', {singleNews});
+        const comments = await Comment.find({article: req.params.id, status: 'approved'}).sort({createdAt: -1});
+
+        res.render('single', {singleNews, comments});
     } catch (error) {
         // next( errorMessage(error.message, 500) );
         console.log(error);
@@ -128,7 +130,23 @@ const author = async (req, res) => {
         console.log(error);
     }
 };
-const addComment = async (req, res) => { };
+const addComment = async (req, res) => {
+    try{
+        const { name, email, content } = req.body;
+        const articleId = req.params.id;
+        const newComment = new Comment({
+            article: articleId,
+            name,
+            email,
+            content
+        });
+        await newComment.save();
+        res.redirect(`/single/${articleId}`);
+    } catch (error) {
+        // next( errorMessage(error.message, 500) );
+        console.log(error);
+    }
+ };
 
 export default {
     index,

@@ -45,6 +45,8 @@ router.delete('/articles/delete/:id', isLoggedIn, articleController.deleteArticl
 
 // Comment Routes
 router.get('/comments', isLoggedIn, commentController.allComments);
+router.put('/comments/update/:id', isLoggedIn, commentController.updateComment);
+router.delete('/comments/delete/:id', isLoggedIn, commentController.deleteComment);
 
 // 404 Middleware
 router.use(isLoggedIn, (req, res, next) => {

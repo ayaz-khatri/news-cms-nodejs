@@ -5,132 +5,127 @@
                 <h1 class="admin-heading"><i class="fa fa-comments"></i> Comments Management</h1>
             </div>
             <div class="col-md-12">
-                <table class="content-table" style="background: white;">
-                    <thead>
-                        <th>Article</th>
-                        <th>Name</th>
-                        <th>Comment</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <td class='id'>Ipsum dolor sit amet</td>
-                        <td>Rahul Sharma</td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                        <td>Approved</td>
-                        <td>02-Nov-2025</td>
-                        <td class='edit'>
-                            <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                            <option value="pending">Pending</option>
-                            <option value="approved" selected="">Approved</option>
-                            <option value="rejected">Rejected</option>
-                            </select>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td class='id'>Ipsum dolor sit amet</td>
-                        <td>Rahul Sharma</td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                        <td>Approved</td>
-                        <td>02-Nov-2025</td>
-                        <td class='edit'>
-                            <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                            <option value="pending">Pending</option>
-                            <option value="approved" selected="">Approved</option>
-                            <option value="rejected">Rejected</option>
-                            </select>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td class='id'>Ipsum dolor sit amet</td>
-                        <td>Rahul Sharma</td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                        <td>Approved</td>
-                        <td>02-Nov-2025</td>
-                        <td class='edit'>
-                            <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                            <option value="pending">Pending</option>
-                            <option value="approved" selected="">Approved</option>
-                            <option value="rejected">Rejected</option>
-                            </select>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td class='id'>Ipsum dolor sit amet</td>
-                        <td>Rahul Sharma</td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                        <td>Approved</td>
-                        <td>02-Nov-2025</td>
-                        <td class='edit'>
-                            <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                            <option value="pending">Pending</option>
-                            <option value="approved" selected="">Approved</option>
-                            <option value="rejected">Rejected</option>
-                            </select>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td class='id'>Ipsum dolor sit amet</td>
-                        <td>Rahul Sharma</td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                        <td>Approved</td>
-                        <td>02-Nov-2025</td>
-                        <td class='edit'>
-                            <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                            <option value="pending">Pending</option>
-                            <option value="approved" selected="">Approved</option>
-                            <option value="rejected">Rejected</option>
-                            </select>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td class='id'>Ipsum dolor sit amet</td>
-                        <td>Rahul Sharma</td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                        <td>Approved</td>
-                        <td>02-Nov-2025</td>
-                        <td class='edit'>
-                            <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                            <option value="pending">Pending</option>
-                            <option value="approved" selected="">Approved</option>
-                            <option value="rejected">Rejected</option>
-                            </select>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td class='id'>Ipsum dolor sit amet</td>
-                        <td>Rahul Sharma</td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, eveniet!</td>
-                        <td>Approved</td>
-                        <td>02-Nov-2025</td>
-                        <td class='edit'>
-                            <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                            <option value="pending">Pending</option>
-                            <option value="approved" selected="">Approved</option>
-                            <option value="rejected">Rejected</option>
-                            </select>
-                        </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <nav aria-label="...">
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                    <a class="page-link">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active">
-                    <a class="page-link" href="#" aria-current="page">2</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-                </nav>
+                <div id="crudTable"></div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal" id="viewCommentModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Comment Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="commentModalBody">
+                <!-- Comment details will be populated here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/tabulator.min.js"></script>
+
+<script>
+    const tableData =  <%- JSON.stringify(comments) %> || [];
+    
+    var table = new Tabulator("#crudTable", {
+        data:tableData,
+        layout:"fitColumns",
+        pagination:true,
+        paginationSize:10,
+        paginationSizeSelector:[5, 10, 20, 50],
+        columns:[
+            {title:"S.No.", formatter:"rownum", width:100, hozAlign:"center"},
+            {title:"Article", field:"article.title", headerFilter:"input"},
+            {title:"Content", field:"content", headerFilter:"input"},
+            {title:"Name", field:"name", headerFilter:"input"},
+            {title:"Date", field:"createdAt", headerFilter:"input", formatter:function(cell, formatterParams, onRendered){
+                const date = new Date(cell.getValue());
+                const options = { year: 'numeric', month: 'short', day: '2-digit' };
+                const dateString = new Intl.DateTimeFormat('en-GB', options).format(date);
+                const timeString = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: true }).format(date);
+                return `${dateString} ${timeString}`;
+            }},
+            {title:"Status", field:"status", headerFilter:"input"},
+
+            {title: "Actions", formatter: function(cell, formatterParams, onRendered){
+                return `<button onclick="viewComment('${cell.getData()._id}')" class="btn btn-sm btn-success text-white" title="View">View</button> 
+                        <button onclick="deleteEntity('${cell.getData()._id}')" class="btn btn-sm btn-danger delete" title="Delete" >Delete</button>`;
+            }}
+        ],
+    });
+
+    // View Comment Function
+    function viewComment(id) {
+        const comment = tableData.find(c => c._id === id);
+        const html = `
+            <p><strong>Content:</strong> ${comment.content}</p>
+           <select id="commentStatus" class="form-select">
+                <option value="approved" ${comment.status === 'approved' ? 'selected' : ''}>Approved</option>
+                <option value="pending" ${comment.status === 'pending' ? 'selected' : ''}>Pending</option>
+                <option value="rejected" ${comment.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+            </select>
+            <button class="btn btn-primary mt-2" onclick="updateCommentStatus('${comment._id}', document.getElementById('commentStatus').value)">Update Status</button>
+        `;
+        const modal = new bootstrap.Modal(document.getElementById('viewCommentModal'));
+        const modalBody = document.getElementById('commentModalBody');
+        const modalTitle = document.getElementById('modalTitle');
+        modalTitle.innerText = `${comment.name}`;
+        modalBody.innerHTML = html;
+        modal.show();
+    }
+
+    async function updateCommentStatus(id, status) {
+        await fetch(`/admin/comments/update/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: document.getElementById('commentStatus').value }),
+        }).then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert('Failed to update comment status.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while updating the comment status.');
+        });
+    }
+
+    async function deleteEntity(id) {
+        if (confirm("Are you sure you want to delete this comment?")) {
+            try {
+                const response = await fetch(`/admin/comments/delete/${id}`, {
+                    method: 'DELETE',
+                });
+                if (response.ok) {
+                    window.location.reload();
+                    return;
+                }
+                if (response.status === 400) {
+                    const data = await response.json(); 
+                    alert(data.message);
+                    return;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the category.');
+            }
+        }
+    }
+
+</script>
+
+<%- contentFor('tabulatorCSS') %>
+<!-- Tabulator CSS -->
+<link rel="stylesheet" href="/css/tabulator.min.css" />
+<link rel="stylesheet" href="/css/tabulator_bootstrap5.min.css" />
