@@ -5,10 +5,10 @@ import User from "../models/User.js";
 import News from "../models/News.js";
 import Setting from "../models/Setting.js";
 import paginate from "../utils/paginate.js";
-// import errorMessage from "../utils/error-message.js";
+import errorMessage from "../utils/error-message.js";
 
 
-const index = async (req, res) => { 
+const index = async (req, res, next) => { 
     try{
         // const news = await News.find()
         //                         .populate('category', {'name':1, 'slug':1})
@@ -27,14 +27,13 @@ const index = async (req, res) => {
 
         res.render('index', {paginatedNews, query: req.query});
     } catch (error) {
-        // next( errorMessage(error.message, 500) );
-        console.log(error);
+        next( errorMessage(error.message, 500) );
     }
 };
-const articleByCategory = async (req, res) => {
+const articleByCategory = async (req, res, next) => {
     try{
         const category = await Category.findOne({slug: req.params.slug});
-        if(!category) return res.status(404).send('Category not found.');
+        if(!category) return next( errorMessage('Category not found', 404) );
         // const news = await News.find({category: category._id})
         //                         .populate('category', {'name':1, 'slug':1})
         //                         .populate('author', 'fullname')
@@ -56,22 +55,23 @@ const articleByCategory = async (req, res) => {
         console.log(error);
     }
  };
-const singleArticle = async (req, res) => { 
+const singleArticle = async (req, res, next) => { 
     try{
         const singleNews = await News.findById(req.params.id)
                                 .populate('category', {'name':1, 'slug':1})
                                 .populate('author', 'fullname')
                                 .sort({timestamps: -1});
 
+        if(!singleNews) return next( errorMessage('News not found', 404) );
+
         const comments = await Comment.find({article: req.params.id, status: 'approved'}).sort({createdAt: -1});
 
         res.render('single', {singleNews, comments});
     } catch (error) {
-        // next( errorMessage(error.message, 500) );
-        console.log(error);
+        next( errorMessage(error.message, 500) );
     }
 };
-const search = async (req, res) => { 
+const search = async (req, res, next) => { 
     try{
         const searchQuery = req.query.search;
         // const news = await News.find({
@@ -101,14 +101,13 @@ const search = async (req, res) => {
 
         res.render('search', {paginatedNews, searchQuery, query: req.query});
     } catch (error) {
-        // next( errorMessage(error.message, 500) );
-        console.log(error);
+        next( errorMessage(error.message, 500) );
     }
 };
-const author = async (req, res) => { 
+const author = async (req, res, next) => { 
     try{
         const author = await User.findById(req.params.id);
-        if(!author) return res.status(404).send('Author not found.');
+        if(!author) return next( errorMessage('Author not found', 404) );
         // const news = await News.find({author: req.params.id})
         //                         .populate('category', {'name':1, 'slug':1})
         //                         .populate('author', 'fullname')
@@ -126,11 +125,10 @@ const author = async (req, res) => {
 
         res.render('author', {paginatedNews, author, query: req.query });
     } catch (error) {
-        // next( errorMessage(error.message, 500) );
-        console.log(error);
+        next( errorMessage(error.message, 500) );
     }
 };
-const addComment = async (req, res) => {
+const addComment = async (req, res, next) => {
     try{
         const { name, email, content } = req.body;
         const articleId = req.params.id;
@@ -143,8 +141,7 @@ const addComment = async (req, res) => {
         await newComment.save();
         res.redirect(`/single/${articleId}`);
     } catch (error) {
-        // next( errorMessage(error.message, 500) );
-        console.log(error);
+        next( errorMessage(error.message, 500) );
     }
  };
 

@@ -11,4 +11,24 @@ router.get('/search', siteController.search);
 router.get('/author/:id', siteController.author);
 router.post('/single/:id/comment', siteController.addComment);
 
+
+// 404 Middleware
+router.use((req, res, next) => {
+    res.status(404).render('404',{
+        message: 'Page Not Found' 
+    });
+});
+
+
+// Error Handling Middleware
+router.use((err, req, res, next) => {
+    console.log(err.stack);
+    const status = err.status || 500;
+    res.status(status).render('error',{
+        status: status,
+        message: err.message || 'Something went wrong!'
+    });
+});
+
+
 export default router;

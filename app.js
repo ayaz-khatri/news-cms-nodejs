@@ -32,12 +32,13 @@ mongoose.connect(process.env.MONGODB_URI)
 .catch(err => console.log(err));
 
 /* --------------------------------- Routes --------------------------------- */
-app.use('/', frontendRoutes);
 app.use('/admin', (req, res, next)=>{
   res.locals.layout = 'admin/layout';
   next();
 });
 app.use('/admin', adminRoutes);
+
+app.use('/', frontendRoutes);
 
 
 /* ---------------------------- Start the server ---------------------------- */
