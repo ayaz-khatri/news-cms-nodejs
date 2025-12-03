@@ -4,7 +4,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import expressLayouts from 'express-ejs-layouts';
 import cookieParser from 'cookie-parser';
-import flash from 'connect-flash';
 import dotenv from 'dotenv';
 import frontendRoutes from './routes/frontend.js';
 import adminRoutes from './routes/admin.js';

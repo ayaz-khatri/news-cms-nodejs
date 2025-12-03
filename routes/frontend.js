@@ -2,7 +2,9 @@ import express from 'express';
 const router = express.Router();
 import siteController from '../controllers/siteController.js';
 import loadCommonData from '../middleware/loadCommonData.js';
+import authStatus from '../middleware/authStatus.js';
 
+router.use(authStatus);
 router.use(loadCommonData);
 router.get('/', siteController.index);
 router.get('/category/:slug', siteController.articleByCategory);

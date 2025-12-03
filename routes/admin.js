@@ -8,9 +8,10 @@ import isLoggedIn from '../middleware/isLoggedIn.js';
 import isAdmin from '../middleware/isAdmin.js';
 import upload from '../middleware/multer.js';
 import isValid from '../middleware/validation.js';
+import redirectIfLoggedIn from '../middleware/redirectIfLoggedIn.js';
 
 // Login Routes
-router.get('/', userController.loginPage);
+router.get('/', redirectIfLoggedIn,userController.loginPage);
 router.post('/index', isValid.loginValidation, userController.adminLogin);
 router.get('/logout', userController.logout);
 router.get('/dashboard', isLoggedIn, userController.dashboard);

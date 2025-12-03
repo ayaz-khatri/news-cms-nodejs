@@ -207,6 +207,22 @@ img.logo{
   padding: 15px;
 }
 
+#header .login{
+  margin: 10px 0;
+  color: #fff;
+  font-size: 18px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+#header .login i{
+  color: #fff;
+}
+
+#header .login:hover{
+  text-decoration: underline;
+}
+
 #logo{
   display: inline-block;
   width: 65%;

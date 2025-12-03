@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <% if(settings.title && settings.title.trim() !== '') { %>
+    <% if(settings && settings.title && settings.title.trim() !== '') { %>
       <title><%= settings.title %></title>
     <% } else { %>
-      <title>News</title>
+      <title>News CMS Project | Powered by Ayaz Khatri</title>
     <% } %>
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet"> 
@@ -22,16 +22,29 @@
 <div id="header">
     <!-- container -->
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row">
             <!-- LOGO -->
             <div class="col-md-3">
-              <% if(settings.logo && settings.logo.trim() !== '') { %>
+              <% if(settings && settings.logo && settings.logo.trim() !== '') { %>
                 <a href="/" id="logo"><img src="/uploads/<%= settings.logo %>" alt="Logo" /></a>
               <% } else { %>
                 <a href="/" id="logo"><img src="/images/news.jpg" alt="Logo" /></a>
               <% } %>
             </div>
             <!-- /LOGO -->
+             <% if(isLoggedIn) { %>
+             <div class="col-md-9 text-end">
+                <a href="/admin/logout" class="login">
+                  <i class="fa fa-sign-out"></i> Logout
+                </a>
+            </div>
+            <% } else { %>
+              <div class="col-md-9 text-end">
+                <a href="/admin" class="login">
+                  <i class="fa fa-sign-out"></i> Login
+                </a>
+            </div>
+            <% } %>
         </div>
     </div>
 </div>
@@ -69,10 +82,10 @@
       <div class="container">
           <div class="row">
               <div class="col-md-12">
-                  <% if(settings.description && settings.description.trim() !== '') { %>
+                  <% if(settings && settings.description && settings.description.trim() !== '') { %>
                     <p><%= settings.description %></p>
                   <% } else { %>
-                  <span>© Copyright 2025 News | Powered by Ayaz Khatri</span>
+                  <span>© Copyright 2025 News CMS Project | Powered by Ayaz Khatri</span>
                   <% } %>
               </div>
           </div>
