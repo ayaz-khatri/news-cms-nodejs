@@ -16,7 +16,9 @@
             <%= new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: '2-digit' }).format(new Date(singleNews.timestamps)) %>
         </span>
         </div>
+        <% if(singleNews.image) { %>
         <img class="single-feature-image" src="/uploads/<%= singleNews.image  %>" alt=""/>
+        <% } %>
         <p class="description">
             <%- singleNews.content  %>
         </p>

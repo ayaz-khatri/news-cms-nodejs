@@ -19,7 +19,7 @@
         <% latestNews.forEach(newsItem => { %>
         <div class="recent-post">
             <a class="post-img" href="">
-                <img src="/uploads/<%= newsItem.image %>" alt=""/>
+                <img src="<%= newsItem.image ? '/uploads/' + newsItem.image : '/images/placeholder.png' %>" alt=""/>
             </a>
             <div class="post-content">
                 <h5><a href="/single/<%= newsItem._id %>"><%= newsItem.title %></a></h5>

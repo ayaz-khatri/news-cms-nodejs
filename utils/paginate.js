@@ -1,5 +1,5 @@
 const paginate = async (model, query = {}, reqQuery = {}, options = {}) => { 
-    const { page = 1, limit = 2, sort = '-timestamps' } = reqQuery;
+    const { page = 1, limit = 3, sort = '-timestamps' } = reqQuery;
     const skip = (page - 1) * limit;
 
     const paginationOptions = {
